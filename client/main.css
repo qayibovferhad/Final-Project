@@ -37,7 +37,7 @@
 
 /* Navbar */
 
-.navbar {
+.navbars {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -190,7 +190,7 @@
     padding-inline: 2rem;
   }
 
-  .navbar {
+  .navbars {
     display: none;
   }
 
@@ -203,7 +203,7 @@
     padding: 0;
   }
 
-  .navbar-brand {
+  .navbar-brands {
     display: flex;
     align-items: center;
     text-decoration: none;
