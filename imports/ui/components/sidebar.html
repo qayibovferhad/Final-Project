@@ -1,0 +1,54 @@
+<template name="sidebar">
+  <nav class="navbar">
+    <div class="logo">
+      <a><img src="/images/logo1.png" width="50px" /></a>
+    </div>
+    <div class="icons">
+      <button>
+        <span>Logout</span
+        ><i
+          style="font-size: 13px; margin-left: 5px"
+          class="fa-solid fa-right-from-bracket"
+        ></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Side Navigation-->
+  <nav class="side-nav">
+    <div class="side-buttons">
+      <a href="/dashboard" class="button active">
+        Dashboard<i class="fa-solid fa-chart-line"></i>
+      </a>
+      <a href="/" class="button">Filials <i class="fa-solid fa-school"></i></a>
+      <a class="button">
+        Teachers<i class="fa-solid fa-person-chalkboard"></i>
+      </a>
+      <a href="/" class="button">
+        Directors<i class="fa-regular fa-user"></i>
+      </a>
+      <a href="/" class="button">Students<i class="fa-solid fa-users"></i></a>
+    </div>
+  </nav>
+
+  <!-- Mobile Navbar -->
+  <nav class="mobile-navbar">
+    <a class="navbar-brand">
+      <div class="logo-text">Kaspi</div>
+    </a>
+    <div class="hamburger-button">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </nav>
+
+  <!-- Hamburger Menu -->
+  <div class="hamburger-menu">
+    <div class="menu-buttons">
+      <a class="button" href="#Users">Users</a>
+      <a class="button" href="#Roles">Roles</a>
+      <a class="button" href="#Bots">Bots</a>
+    </div>
+  </div>
+</template>
