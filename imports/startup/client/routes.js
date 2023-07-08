@@ -2,7 +2,7 @@ import "../../ui/layout/mainLayout";
 import "../../ui/components/sidebar";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import "../../ui/pages/home/home";
-import '../../ui/layout/auth/authLayout'
+import "../../ui/layout/auth/authLayout";
 
 FlowRouter.route("/", {
   name: "App.home",
@@ -13,9 +13,8 @@ FlowRouter.route("/", {
   },
 });
 
-
-import "../../ui/pages/dashboard/dashboard";
-FlowRouter.route("/dashboard", {
+import "../../ui/pages/admin/dashboard/dashboard";
+FlowRouter.route("/admin/dashboard", {
   name: "App.dashboard",
   action() {
     BlazeLayout.render("mainLayout", {
@@ -23,8 +22,17 @@ FlowRouter.route("/dashboard", {
     });
   },
 });
+import "../../ui/pages/admin/branches/branches";
+FlowRouter.route("/admin/branches", {
+  name: "App.branches",
+  action() {
+    BlazeLayout.render("mainLayout", {
+      main: "branches",
+    });
+  },
+});
 
-import '../../ui/pages/auth/login'
+import "../../ui/pages/auth/login";
 FlowRouter.route("/login", {
   name: "App.login",
   action() {
