@@ -1,4 +1,3 @@
-Meteor.publish("get.users", function () {
-  let query = {};
+Meteor.publish("get.users", function (query = {}) {
   return Meteor.users.find(query);
 });

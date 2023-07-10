@@ -17,6 +17,14 @@ Schema.Branch = new SimpleSchema({
     type: String,
     optional: true,
   },
+  status: {
+    type: String,
+  },
+  teachers: {
+    type: Array,
+    optional: true,
+  },
+  "teachers.$": String,
 });
 
 export const branchValidationText = Schema.Branch.namedContext("branch");

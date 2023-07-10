@@ -13,6 +13,16 @@ FlowRouter.route("/", {
   },
 });
 
+import "../../ui/pages/auth/login";
+FlowRouter.route("/login", {
+  name: "App.login",
+  action() {
+    BlazeLayout.render("authLayout", {
+      main: "login",
+    });
+  },
+});
+
 import "../../ui/pages/admin/dashboard/dashboard";
 FlowRouter.route("/admin/dashboard", {
   name: "App.dashboard",
@@ -31,13 +41,22 @@ FlowRouter.route("/admin/branches", {
     });
   },
 });
-
-import "../../ui/pages/auth/login";
-FlowRouter.route("/login", {
-  name: "App.login",
+import "../../ui/pages/admin/directors/directors";
+FlowRouter.route("/admin/directors", {
+  name: "App.directors",
   action() {
-    BlazeLayout.render("authLayout", {
-      main: "login",
+    BlazeLayout.render("mainLayout", {
+      main: "directors",
+    });
+  },
+});
+
+import "../../ui/pages/admin/teachers/teachers";
+FlowRouter.route("/admin/teachers", {
+  name: "App.teachers",
+  action() {
+    BlazeLayout.render("mainLayout", {
+      main: "teachers",
     });
   },
 });

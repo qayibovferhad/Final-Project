@@ -17,11 +17,17 @@ Template.branches.onCreated(function () {
 });
 
 Template.branches.helpers({
+  addOne: function (index) {
+    return index + 1;
+  },
   getAllBranches: function () {
     return Branches.find();
   },
   getDirector: function (directorId) {
     return Meteor.users.findOne({ _id: directorId });
+  },
+  isBranchActive: function (status) {
+    return status === "active";
   },
 });
 
@@ -30,15 +36,18 @@ Template.branches.events({
     event.preventDefault();
     let branchName = $("#branch-name").val();
     let branchAddress = $("#branch-address").val();
-    let direktorName = $("#direktor-name").val();
-    let direktorEmail = $("#direktor-email").val();
-    let direktorPassword = $("#direktor-password").val();
-    let direktorAge = $("#direktor-age").val();
+    let firstname = $("#direktor-firstname").val();
+    let lastname = $("#direktor-lastname").val();
+    let username = $("#direktor-username").val();
+    let email = $("#direktor-email").val();
+    let password = $("#direktor-password").val();
+    let age = $("#direktor-age").val();
 
     let branchData = {
       _id: Random.id(),
       branchName,
       branchAddress,
+      status: "active",
       direktorId: null,
     };
 
@@ -55,10 +64,13 @@ Template.branches.events({
 
     let direktorData = {
       _id: Random.id(),
-      direktorName,
-      direktorEmail,
-      direktorPassword,
-      direktorAge,
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+      age,
+      active: true,
       type: "DIREKTOR",
       branchId: branchData._id,
     };
@@ -98,5 +110,23 @@ Template.branches.events({
         });
       }
     });
+  },
+  "click .activate-btn": function (event, template) {
+    const branchId = this._id;
+    const branch = Branches.findOne({ _id: branchId });
+    const newStatus = branch.status === "active" ? "inactive" : "active";
+
+    Meteor.call("update.branchStatus", branchId, newStatus, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        Meteor.call("update.userStatus", branchId, newStatus, function (err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+    });
+    event.stopPropagation();
   },
 });

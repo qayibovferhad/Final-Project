@@ -1,0 +1,40 @@
+<template name="directors">
+  <h1 class="text-center mb-5">Directors</h1>
+  <div class="directors">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#id</th>
+          <th>Branch Name</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Status</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each getAllDirectors}}
+        <tr>
+          <td>{{_id}}</td>
+          <td>{{#with getBranchName _id}} {{branchName}} filiali {{/with}}</td>
+          <td>{{username}}</td>
+          <td>{{emails.[0].address}}</td>
+          <td>{{profile.age}}</td>
+          <td>{{profile.status}}</td>
+          <td>
+            <button
+              class="btn btn-success btn-sm update-btn"
+              data-id="{{_id}}"
+              type="button"
+            >
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+        </tr>
+
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
