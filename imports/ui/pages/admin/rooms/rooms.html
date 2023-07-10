@@ -1,0 +1,129 @@
+<template name="rooms">
+  <div class="rooms">
+    <h1 class="text-center mt-5">Rooms</h1>
+    <button
+      type="button"
+      class="btn btn-primary mt-2 mb-5"
+      data-toggle="modal"
+      data-target="#addRoom"
+    >
+      Add Room
+    </button>
+    <div
+      class="modal fade"
+      id="addRoom"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Add Room</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="roomForm">
+              <div class="form-group">
+                <label for="room-branch">Branch</label>
+                <select class="form-control" id="room-branch">
+                  <option value="" disabled selected>Select Branch</option>
+                  {{#each getAllBranches}}
+                  <option value="{{_id}}">{{branchName}}</option>
+                  {{/each}}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="room-name">Room Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="room-name"
+                  placeholder="Room Name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="room-capacity">Room Capacity</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="room-capacity"
+                  placeholder="Capacity"
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="submitRoomForm">
+                Submit
+              </button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Name</th>
+          <th>Capacity</th>
+          <th>Branch</th>
+          <th>Status</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each getAllRooms}}
+
+        <tr
+          class="accordion-toggle"
+          data-toggle="collapse"
+          data-target="#details{{_id}}"
+          aria-expanded="false"
+          aria-controls="details{{_id}}"
+        >
+          <td>{{addOne @index}}</td>
+          <td>{{roomName}}</td>
+          <td>{{capacity}}</td>
+          <td>{{getBranch _id}} filiali</td>
+
+          <td>{{#if status}} active {{else}} inactive {{/if}}</td>
+          <td>
+            <button
+              class="btn btn-success btn-sm update-btn"
+              data-id="{{_id}}"
+              type="button"
+            >
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button
+              class="btn btn-danger btn-sm delete-btn"
+              data-id="{{_id}}"
+              id="deleteRoom"
+              type="button"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

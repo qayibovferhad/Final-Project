@@ -60,3 +60,13 @@ FlowRouter.route("/admin/teachers", {
     });
   },
 });
+
+import "../../ui/pages/admin/rooms/rooms";
+FlowRouter.route("/admin/rooms", {
+  name: "App.rooms",
+  action() {
+    BlazeLayout.render("mainLayout", {
+      main: "rooms",
+    });
+  },
+});

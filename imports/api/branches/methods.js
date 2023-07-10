@@ -18,10 +18,5 @@ Meteor.methods({
       { multi: true }
     );
   },
-  "add.room": function (data) {
-    return Rooms.insert(data);
-  },
-  "add.roomToBranch": function (branchId, roomId) {
-    return Branches.update({ _id: branchId }, { $push: { rooms: roomId } });
-  },
+
 });

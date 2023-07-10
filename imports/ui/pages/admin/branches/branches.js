@@ -47,44 +47,9 @@ Template.branches.helpers({
     }
     return "";
   },
-  getRoomCount: function () {
-    return Branches.find().fetch().rooms.count;
-  },
 });
 
 Template.branches.events({
-  "submit #roomForm": function (event, template) {
-    event.preventDefault();
-    let roomName = $("#room-name").val();
-    let capacity = $("#room-capacity").val();
-    let branchId = $("#room-branch").val();
-    let roomData = {
-      roomName,
-      capacity,
-      branchId,
-      status: true,
-    };
-    roomValidationText.reset();
-    roomData = roomValidationText.clean(roomData);
-    roomValidationText.validate(roomData);
-
-    Meteor.call("add.room", roomData, function (err, roomId) {
-      if (err) {
-        console.log(err);
-      } else {
-        Meteor.call("add.roomToBranch", branchId, roomId, function (err) {
-          if (err) {
-            console.log(err);
-          } else {
-            $("#addRoom").modal("hide");
-            $("#room-name").val("");
-            $("#room-capacity").val("");
-            $("#room-branch").val("");
-          }
-        });
-      }
-    });
-  },
   "submit #branchForm"(event, template) {
     event.preventDefault();
     let branchName = $("#branch-name").val();
@@ -159,6 +124,12 @@ Template.branches.events({
         Meteor.call("removeUserByBranchId", branchId, function (err) {
           if (err) {
             console.log(err);
+          } else {
+            Meteor.call("remove.roomByBranchId", branchId, function (err) {
+              if (err) {
+                console.log(err);
+              }
+            });
           }
         });
       }
@@ -176,6 +147,7 @@ Template.branches.events({
         Meteor.call("update.userStatus", branchId, newStatus, function (err) {
           if (err) {
             console.log(err);
+          } else {
           }
         });
       }
