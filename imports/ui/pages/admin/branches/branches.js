@@ -3,9 +3,15 @@ import { Random } from "meteor/random";
 import {
   Branches,
   branchValidationText,
+  Rooms,
+  roomValidationText,
 } from "../../../../api/branches/collection";
 
 Template.branches.onCreated(function () {
+  this.autorun(() => {
+    let query = {};
+    this.subscribe("get.rooms", query);
+  });
   this.autorun(() => {
     let query = {};
     this.subscribe("get.branches", query);
@@ -23,15 +29,62 @@ Template.branches.helpers({
   getAllBranches: function () {
     return Branches.find();
   },
+  getAllRooms: function (branchId) {
+    let query = {};
+
+    return Rooms.find(query);
+  },
   getDirector: function (directorId) {
     return Meteor.users.findOne({ _id: directorId });
   },
-  isBranchActive: function (status) {
-    return status === "active";
+  getBranch: function (roomId) {
+    const room = Rooms.findOne({ _id: roomId });
+    if (room) {
+      const branch = Branches.findOne({ _id: room.branchId });
+      if (branch) {
+        return branch.branchName;
+      }
+    }
+    return "";
+  },
+  getRoomCount: function () {
+    return Branches.find().fetch().rooms.count;
   },
 });
 
 Template.branches.events({
+  "submit #roomForm": function (event, template) {
+    event.preventDefault();
+    let roomName = $("#room-name").val();
+    let capacity = $("#room-capacity").val();
+    let branchId = $("#room-branch").val();
+    let roomData = {
+      roomName,
+      capacity,
+      branchId,
+      status: true,
+    };
+    roomValidationText.reset();
+    roomData = roomValidationText.clean(roomData);
+    roomValidationText.validate(roomData);
+
+    Meteor.call("add.room", roomData, function (err, roomId) {
+      if (err) {
+        console.log(err);
+      } else {
+        Meteor.call("add.roomToBranch", branchId, roomId, function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            $("#addRoom").modal("hide");
+            $("#room-name").val("");
+            $("#room-capacity").val("");
+            $("#room-branch").val("");
+          }
+        });
+      }
+    });
+  },
   "submit #branchForm"(event, template) {
     event.preventDefault();
     let branchName = $("#branch-name").val();
@@ -47,7 +100,7 @@ Template.branches.events({
       _id: Random.id(),
       branchName,
       branchAddress,
-      status: "active",
+      status: true,
       direktorId: null,
     };
 
@@ -70,7 +123,7 @@ Template.branches.events({
       email,
       password,
       age,
-      active: true,
+      status: true,
       type: "DIREKTOR",
       branchId: branchData._id,
     };
@@ -114,7 +167,7 @@ Template.branches.events({
   "click .activate-btn": function (event, template) {
     const branchId = this._id;
     const branch = Branches.findOne({ _id: branchId });
-    const newStatus = branch.status === "active" ? "inactive" : "active";
+    const newStatus = branch.status === true ? false : true;
 
     Meteor.call("update.branchStatus", branchId, newStatus, function (err) {
       if (err) {

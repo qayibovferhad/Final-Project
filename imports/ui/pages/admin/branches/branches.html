@@ -11,6 +11,69 @@
 
   <div
     class="modal fade"
+    id="addRoom"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Add Room</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="roomForm">
+            <div class="form-group">
+              <label for="room-branch">Branch</label>
+              <select class="form-control" id="room-branch">
+                <option value="" disabled selected>Select Branch</option>
+                {{#each getAllBranches}}
+                <option value="{{_id}}">{{branchName}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="room-name">Room Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="room-name"
+                placeholder="Room Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="room-capacity">Room Capacity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="room-capacity"
+                placeholder="Capacity"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="submitRoomForm">
+              Submit
+            </button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
     id="myModal"
     tabindex="-1"
     role="dialog"
@@ -148,7 +211,8 @@
           <td>{{addOne @index}}</td>
           <td>{{branchName}} filiali</td>
           <td>{{branchAddress}}</td>
-          <td>{{status}}</td>
+
+          <td>{{#if status}} active {{else}} inactive {{/if}}</td>
           <td>
             <button
               class="btn btn-success btn-sm update-btn"
@@ -164,7 +228,7 @@
             >
               <i class="fa-solid fa-trash"></i>
             </button>
-            {{#if isBranchActive status}}
+            {{#if status}}
             <button
               class="btn btn-warning btn-sm activate-btn"
               data-id="{{_id}}"
@@ -184,16 +248,21 @@
           </td>
         </tr>
         <tr class="collapse" id="details{{_id}}">
-          <td colspan="4">
+          <td colspan="5">
             <div class="row">
-              <div class="col-lg-6">
-                {{#with getDirector direktorId}}
+              <div class="col-lg-12">
                 <h4>Director:</h4>
-                <h6>Director:{{username}}</h6>
-                <h6>Email:{{emails.[0].address}}</h6>
-                <h6>Age:{{profile.age}}</h6>
-
-                {{/with}}
+                <h6>
+                  Director: {{#with getDirector
+                  direktorId}}{{username}}{{/with}}
+                </h6>
+                <h6>
+                  Email: {{#with getDirector
+                  direktorId}}{{emails.[0].address}}{{/with}}
+                </h6>
+                <h6>
+                  Age: {{#with getDirector direktorId}}{{profile.age}}{{/with}}
+                </h6>
               </div>
             </div>
           </td>
@@ -201,5 +270,66 @@
         {{/each}}
       </tbody>
     </table>
+    <hr />
+
+    <div class="rooms">
+      <h1 class="text-center mt-5">Rooms</h1>
+      <button
+        type="button"
+        class="btn btn-primary mt-2 mb-5"
+        data-toggle="modal"
+        data-target="#addRoom"
+      >
+        Add Room
+      </button>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Branch</th>
+            <th>Status</th>
+            <th>Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each getAllRooms}}
+
+          <tr
+            class="accordion-toggle"
+            data-toggle="collapse"
+            data-target="#details{{_id}}"
+            aria-expanded="false"
+            aria-controls="details{{_id}}"
+          >
+            <td>{{addOne @index}}</td>
+            <td>{{roomName}}</td>
+            <td>{{capacity}}</td>
+            <td>{{getBranch _id}}</td>
+
+            <td>{{#if status}} active {{else}} inactive {{/if}}</td>
+            <td>
+              <button
+                class="btn btn-success btn-sm update-btn"
+                data-id="{{_id}}"
+                type="button"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button
+                class="btn btn-danger btn-sm delete-btn"
+                data-id="{{_id}}"
+                type="button"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>

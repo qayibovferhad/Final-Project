@@ -1,4 +1,4 @@
-import { Branches } from "./collection";
+import { Branches, Rooms } from "./collection";
 
 Meteor.methods({
   "add.branch": function (data) {
@@ -17,5 +17,11 @@ Meteor.methods({
       { $push: { teachers: teacherId } },
       { multi: true }
     );
+  },
+  "add.room": function (data) {
+    return Rooms.insert(data);
+  },
+  "add.roomToBranch": function (branchId, roomId) {
+    return Branches.update({ _id: branchId }, { $push: { rooms: roomId } });
   },
 });

@@ -49,7 +49,7 @@ Template.teachers.events({
       password,
       age,
       selectedBranches,
-      status: "active",
+      status: true,
       type: "TEACHER",
     };
     Meteor.call("add.user", teacherData, function (err, teacherId) {
