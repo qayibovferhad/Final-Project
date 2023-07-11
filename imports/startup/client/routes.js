@@ -1,5 +1,8 @@
+// layouts
 import "../../ui/layout/mainLayout";
 import "../../ui/components/sidebar";
+import '../../ui/layout/directorLayout/directorLayout'
+
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import "../../ui/pages/home/home";
 import "../../ui/layout/auth/authLayout";
@@ -61,6 +64,8 @@ FlowRouter.route("/admin/teachers", {
   },
 });
 
+
+      
 import "../../ui/pages/admin/rooms/rooms";
 FlowRouter.route("/admin/rooms", {
   name: "App.rooms",
@@ -70,3 +75,4 @@ FlowRouter.route("/admin/rooms", {
     });
   },
 });
+

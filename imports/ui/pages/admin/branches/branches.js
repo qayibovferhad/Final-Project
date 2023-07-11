@@ -6,6 +6,7 @@ import {
   Rooms,
   roomValidationText,
 } from "../../../../api/branches/collection";
+import { userValidationContext } from "../../../../api/users/collection";
 
 Template.branches.onCreated(function () {
   this.autorun(() => {
@@ -59,7 +60,7 @@ Template.branches.events({
     let username = $("#direktor-username").val();
     let email = $("#direktor-email").val();
     let password = $("#direktor-password").val();
-    let age = $("#direktor-age").val();
+    let age = parseInt($("#direktor-age").val());
 
     let branchData = {
       _id: Random.id(),
@@ -92,6 +93,8 @@ Template.branches.events({
       type: "DIREKTOR",
       branchId: branchData._id,
     };
+
+   
 
     Meteor.call("add.user", direktorData, function (err, userId) {
       if (err) {
