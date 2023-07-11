@@ -1,0 +1,215 @@
+<template name="students">
+  <button type="button" class="btn btn-primary  mb-3" data-toggle="modal" data-target="#myModal">
+    Add Student
+  </button>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Add Student</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="studentForm">
+            <div class="row ">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="studentFirstname">Firstname</label>
+                  <input type="text" class="form-control profile profile.firstname" id="studentFirstname"
+                    placeholder="Student Firstname" />
+                  <div class="invalid-feedback feedback-profile profile.firstname"></div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="studentLastname">Lastname</label>
+                  <input type="text" class="form-control profile profile.lastname" id="studentLastname"
+                    placeholder="Student Lastame" />
+                  <div class="invalid-feedback feedback-profile profile.lastname"></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="profileImg">Profile Img</label>
+              <input type="file" class="form-control" id="profileImg" />
+              <div class="invalid-feedback feedback-profileImg"></div>
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control username" id="studentUsername" placeholder="Username" />
+              <div class="invalid-feedback feedback-username"></div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control emails" id="studentEmail" placeholder="Email" />
+              <div class="invalid-feedback feedback-emails"></div>
+            </div>
+            <div class="form-group">
+              <label for="studentPassword">Password</label>
+              <input type="password" class="form-control password" id="studentPassword" placeholder="Password" />
+              <div class="invalid-feedback feedback-password"></div>
+            </div>
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" class="form-control profile profile.age" id="studentAge" placeholder="Age" />
+              <div class="invalid-feedback feedback-profile profile.age"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Subjects</label>
+              {{#each getSubjects}}
+              <div class="subject">
+                <label for="subject">{{name}}</label>
+                <input type="checkbox" class="mx-2 subjectCheckbox" />
+              </div>
+              {{/each}}
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitForm">
+              Submit
+            </button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Status</th>
+        <th scope="col">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getStudents}}
+      <tr>
+        <th scope="row">{{addOne @index}}</th>
+        <td><img src="{{getProfileImg profile.profileImgId }}" width="50px" alt=""></td>
+        <td>{{username}}</td>
+        <td>{{emails.[0].address}}</td>
+        <td>
+          {{#if profile.status }}
+          Active
+          {{else}}
+          Deactive
+          {{/if}}
+        </td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm updateBtn" data-id="{{_id}}" data-toggle="modal"
+            data-target="#updateSubjectModal">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm deleteBtn">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <button class="btn btn-warning btn-sm activate-btn" data-id="{{_id}}" type="button">
+            <i class="fa-solid fa-ban"></i>
+          </button>
+          <div class="modal fade" id="updateSubjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Update Student</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {{#with getStudent}}
+                  <form id="updateStudentForm">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group d-flex flex-column">
+                          <label for="name">Profile Image</label>
+                          <img width="100px" src="{{getProfileImg profile.profileImgId }}" alt="Profile image">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="period">Change profile image</label>
+                          <input type="file" class="form-control" />
+                          <div class="invalid-feedback feedback-period"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name">Firstname</label>
+                          <input type="text" class="form-control name" value="{{profile.firstname}}" id="editName"
+                            placeholder="Student firstname" />
+                          <div class="invalid-feedback feedback-name"></div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="period">Lastname</label>
+                          <input type="text" class="form-control period" id="editPeriod" placeholder="Student lastname"
+                            value="{{profile.lastname}}" />
+                          <div class="invalid-feedback feedback-period"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name">Username</label>
+                          <input type="text" class="form-control name" value="{{username}}" id="editName"
+                            placeholder="Student username" />
+                          <div class="invalid-feedback feedback-name"></div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="period">Email</label>
+                          <input type="text" class="form-control period" value="{{emails.[0].address}}" id="editPeriod"
+                            placeholder="Student email" />
+                          <div class="invalid-feedback feedback-period"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name">Subjects:</label>
+                          {{#each getSubjects }}
+                          <div class="add-subject">
+                            <label for="">{{name}}</label>
+                            <input type="checkbox">
+                          </div>
+                          {{/each}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                      Submit
+                    </button>
+                  </form>
+                  {{/with}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

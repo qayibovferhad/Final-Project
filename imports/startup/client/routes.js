@@ -1,5 +1,7 @@
 import "../../ui/layout/mainLayout";
 import "../../ui/components/sidebar";
+import "../../ui/layout/directorLayout/directorLayout";
+
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import "../../ui/pages/home/home";
 import "../../ui/layout/auth/authLayout";
@@ -67,6 +69,38 @@ FlowRouter.route("/admin/rooms", {
   action() {
     BlazeLayout.render("mainLayout", {
       main: "rooms",
+    });
+  },
+});
+
+import "../../ui/pages/directorDashboard/students/students";
+
+FlowRouter.route("/director/students", {
+  name: "App.students",
+  action() {
+    BlazeLayout.render("directorLayout", {
+      main: "students",
+    });
+  },
+});
+
+import "../../ui/pages/directorDashboard/lessons/lessons";
+
+FlowRouter.route("/director/lessons", {
+  name: "App.lessons",
+  action() {
+    BlazeLayout.render("directorLayout", {
+      main: "lessons",
+    });
+  },
+});
+
+import "../../ui/pages/directorDashboard/subjects/subjects";
+FlowRouter.route("/director/subjects", {
+  name: "App.subjects",
+  action() {
+    BlazeLayout.render("directorLayout", {
+      main: "subjects",
     });
   },
 });

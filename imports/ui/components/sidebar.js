@@ -6,17 +6,14 @@ Template.sidebar.helpers({
     return Meteor.user()?.profile?.type === payload;
   },
 });
-
 Template.sidebar.events({
   "click .logoutBtn": function (event, template) {
-    if (confirm("Are you sure?") === true) {
-      Meteor.logout(function (error, success) {
-        if (error) {
-          console.log(error);
-        } else {
-          FlowRouter.go("/login");
-        }
-      });
-    }
+    Meteor.logout(function (error, success) {
+      if (error) {
+        console.log(error);
+      } else {
+        FlowRouter.go("/login");
+      }
+    });
   },
 });

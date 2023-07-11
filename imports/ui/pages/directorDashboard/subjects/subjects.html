@@ -1,0 +1,183 @@
+<template name="subjects">
+  <button
+    type="button"
+    class="btn btn-primary mb-3"
+    data-toggle="modal"
+    data-target="#subjectModal"
+  >
+    Add Subject
+  </button>
+
+  <div
+    class="modal fade"
+    id="subjectModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Add Subject</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="subjectForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="direktor-firstname">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="Name"
+                  />
+                  <div class="invalid-feedback feedback-name"></div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="direktor-lastName">Teaching period: Month</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="period"
+                    placeholder="Teaching period"
+                  />
+                  <div class="invalid-feedback feedback-period"></div>
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              style="width: 100%"
+              class="btn btn-primary"
+              id="submitForm"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Period</th>
+        <th scope="col">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getSubjects}}
+      <tr>
+        <th scope="row">{{addOne @index}}</th>
+        <td>{{name}}</td>
+        <td>{{period}} month</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-success btn-sm updateBtn"
+            data-id="{{_id}}"
+            data-toggle="modal"
+            data-target="#updateSubjectModal"
+          >
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm deleteBtn">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <div
+            class="modal fade"
+            id="updateSubjectModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myModalLabel"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Update Subject</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {{#with getSubject}}
+                  <form id="updateSubjectForm">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name">Name</label>
+                          <input
+                            type="text"
+                            class="form-control name"
+                            value="{{name}}"
+                            id="editName"
+                            placeholder="Name"
+                          />
+                          <div class="invalid-feedback feedback-name"></div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="period">Teaching period: Month</label>
+                          <input
+                            type="number"
+                            class="form-control period"
+                            id="editPeriod"
+                            placeholder="Teaching period"
+                            value="{{period}}"
+                          />
+                          <div class="invalid-feedback feedback-period"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      style="width: 100%"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                  {{/with}}
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
