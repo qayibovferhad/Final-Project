@@ -7,6 +7,6 @@ import "../../api/users/methods";
 import "../../api/users/publications";
 
 
-import '../../api/subjects/collection'
-import '../../api/subjects/methods'
-import '../../api/subjects/publications'
+import "../../api/rooms/collection";
+import "../../api/rooms/methods";
+import "../../api/rooms/publications";

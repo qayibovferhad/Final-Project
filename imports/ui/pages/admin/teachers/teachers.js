@@ -49,7 +49,7 @@ Template.teachers.events({
       password,
       age,
       selectedBranches,
-      status: "active",
+      status: true,
       type: "TEACHER",
     };
     Meteor.call("add.user", teacherData, function (err, teacherId) {
@@ -63,9 +63,30 @@ Template.teachers.events({
           function (err, success) {
             if (err) {
               console.log(err);
+            } else {
+              $("#myModal").modal("hide");
             }
           }
         );
+      }
+    });
+  },
+  "click .activate-btn": function (event, template) {
+    console.log(this);
+    const newStatus = this.profile.status === true ? false : true;
+    Meteor.call("update.teacherStatus", this._id, newStatus, function (err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  },
+  "click .delete-btn": function () {
+    const teacherId = this._id;
+    const branch = Branches.findOne({ teachers: { $in: [teacherId] } });
+    console.log(branch);
+    Meteor.call("remove.teacher", teacherId, branch, function (err) {
+      if (err) {
+        console.log(err);
       }
     });
   },

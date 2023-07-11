@@ -16,12 +16,12 @@
       <tbody>
         {{#each getAllDirectors}}
         <tr>
-          <td>{{_id}}</td>
+          <td>{{addOne @index}}</td>
           <td>{{#with getBranchName _id}} {{branchName}} filiali {{/with}}</td>
           <td>{{username}}</td>
           <td>{{emails.[0].address}}</td>
           <td>{{profile.age}}</td>
-          <td>{{profile.status}}</td>
+          <td>{{#if profile.status}} active {{else}} inactive {{/if}}</td>
           <td>
             <button
               class="btn btn-success btn-sm update-btn"

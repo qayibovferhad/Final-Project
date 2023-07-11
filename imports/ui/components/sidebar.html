@@ -1,52 +1,37 @@
 <template name="sidebar">
   <nav class="navbars">
     <div class="logo mb-3">
-      <a><img src="/images/logo1.png" style="width: 80px;" /></a>
+      <a><img src="/images/logo1.png" width="50px" /></a>
     </div>
-    <h3>Kaspi Education Center</h3>
     <div class="icons">
-      <div class="btn-group dropstart mx-3">
-        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          {{currentUser.profile.firstname}}
-        </button>
-        <ul class="dropdown-menu p-0">
-          <button class="dropdown-item logoutBtn">Logout <i style="font-size: 13px; margin-left: 5px" class="fa-solid fa-right-from-bracket"></i></button>
-        </ul>
-      </div>
+      <button>
+        <span>Logout</span
+        ><i
+          style="font-size: 13px; margin-left: 5px"
+          class="fa-solid fa-right-from-bracket"
+        ></i>
+      </button>
     </div>
   </nav>
 
   <nav class="side-nav">
     <div class="side-buttons">
-      {{#if getUser 'ADMIN'}}
-      <a href="/admin/branches" class="button">Branches <i class="fa-solid fa-school"></i></a>
-      {{/if}}
-      {{#if getUser 'ADMIN'}}
+      <a href="/admin/branches" class="button"
+        >Branches <i class="fa-solid fa-school"></i
+      ></a>
+      <a href="/admin/rooms" class="button"
+        >Rooms <i class="fa-solid fa-person-shelter"></i>
+      </a>
       <a href="/admin/directors" class="button">
         Directors<i class="fa-regular fa-user"></i>
       </a>
-      {{/if}}
-      {{#if getUser 'ADMIN'}}
       <a href="/admin/teachers" class="button">
         Teachers<i class="fa-solid fa-person-chalkboard"></i>
       </a>
-      {{/if}}
-      {{#if getUser 'DIREKTOR'}}
-      <a href="/director/students" class="button">Students<i class="fa-solid fa-users"></i></a>
-      {{/if}}
-      {{#if getUser 'DIREKTOR' }}
-      <a href="/director/lessons" class="button">Lessons <i class="fa-solid fa-person-chalkboard"></i></a>
-      {{/if}}
-      {{#if getUser 'DIREKTOR' }}
-      <a href="/director/rooms" class="button">Rooms <i class="fa-solid fa-location-pin"></i></a>
-      {{/if}}
-      {{#if getUser 'ADMIN'}}
+
+      <a href="/" class="button">Students<i class="fa-solid fa-users"></i></a>
       <a href="/admin/dashboard" class="button">
-        Dashboard <i class="fa-solid fa-chart-line"></i>
-      </a>
-      {{/if}}
-      <a href="/director/subjects" class="button">
-        Subjects <i class="fa-solid fa-book"></i>
+        Dashboard<i class="fa-solid fa-chart-line"></i>
       </a>
     </div>
   </nav>

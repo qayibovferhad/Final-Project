@@ -3,10 +3,16 @@ import { Random } from "meteor/random";
 import {
   Branches,
   branchValidationText,
+  Rooms,
+  roomValidationText,
 } from "../../../../api/branches/collection";
 import { userValidationContext } from "../../../../api/users/collection";
 
 Template.branches.onCreated(function () {
+  this.autorun(() => {
+    let query = {};
+    this.subscribe("get.rooms", query);
+  });
   this.autorun(() => {
     let query = {};
     this.subscribe("get.branches", query);
@@ -24,11 +30,23 @@ Template.branches.helpers({
   getAllBranches: function () {
     return Branches.find();
   },
+  getAllRooms: function (branchId) {
+    let query = {};
+
+    return Rooms.find(query);
+  },
   getDirector: function (directorId) {
     return Meteor.users.findOne({ _id: directorId });
   },
-  isBranchActive: function (status) {
-    return status === "active";
+  getBranch: function (roomId) {
+    const room = Rooms.findOne({ _id: roomId });
+    if (room) {
+      const branch = Branches.findOne({ _id: room.branchId });
+      if (branch) {
+        return branch.branchName;
+      }
+    }
+    return "";
   },
 });
 
@@ -48,7 +66,7 @@ Template.branches.events({
       _id: Random.id(),
       branchName,
       branchAddress,
-      status: "active",
+      status: true,
       direktorId: null,
     };
 
@@ -71,7 +89,7 @@ Template.branches.events({
       email,
       password,
       age,
-      active: true,
+      status: true,
       type: "DIREKTOR",
       branchId: branchData._id,
     };
@@ -109,6 +127,12 @@ Template.branches.events({
         Meteor.call("removeUserByBranchId", branchId, function (err) {
           if (err) {
             console.log(err);
+          } else {
+            Meteor.call("remove.roomByBranchId", branchId, function (err) {
+              if (err) {
+                console.log(err);
+              }
+            });
           }
         });
       }
@@ -117,7 +141,7 @@ Template.branches.events({
   "click .activate-btn": function (event, template) {
     const branchId = this._id;
     const branch = Branches.findOne({ _id: branchId });
-    const newStatus = branch.status === "active" ? "inactive" : "active";
+    const newStatus = branch.status === true ? false : true;
 
     Meteor.call("update.branchStatus", branchId, newStatus, function (err) {
       if (err) {
@@ -126,6 +150,7 @@ Template.branches.events({
         Meteor.call("update.userStatus", branchId, newStatus, function (err) {
           if (err) {
             console.log(err);
+          } else {
           }
         });
       }

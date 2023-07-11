@@ -64,46 +64,15 @@ FlowRouter.route("/admin/teachers", {
   },
 });
 
-import '../../ui/pages/directorDashboard/students/students'
 
-FlowRouter.route("/director/students", {
-  name: "App.students",
-  action() {
-    BlazeLayout.render("directorLayout", {
-      main: "students",
-    });
-  },
-});
-
-import '../../ui/pages/directorDashboard/lessons/lessons'
-
-FlowRouter.route("/director/lessons", {
-  name: "App.lessons",
-  action() {
-    BlazeLayout.render("directorLayout", {
-      main: "lessons",
-    });
-  },
-});
-
-import '../../ui/pages/directorDashboard/rooms/rooms'
-
-FlowRouter.route("/director/rooms", {
+      
+import "../../ui/pages/admin/rooms/rooms";
+FlowRouter.route("/admin/rooms", {
   name: "App.rooms",
   action() {
-    BlazeLayout.render("directorLayout", {
+    BlazeLayout.render("mainLayout", {
       main: "rooms",
     });
   },
 });
 
-import '../../ui/pages/directorDashboard/subjects/subjects'
-
-FlowRouter.route("/director/subjects", {
-  name: "App.subjects",
-  action() {
-    BlazeLayout.render("directorLayout", {
-      main: "subjects",
-    });
-  },
-});

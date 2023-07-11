@@ -13,6 +13,9 @@ Template.directors.onCreated(function () {
   });
 });
 Template.directors.helpers({
+  addOne: function (index) {
+    return index + 1;
+  },
   getAllDirectors: function () {
     let query = {
       "profile.type": "DIREKTOR",

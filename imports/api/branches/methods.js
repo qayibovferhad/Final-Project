@@ -1,4 +1,4 @@
-import { Branches } from "./collection";
+import { Branches, Rooms } from "./collection";
 
 Meteor.methods({
   "add.branch": function (data) {
@@ -18,4 +18,5 @@ Meteor.methods({
       { multi: true }
     );
   },
+
 });

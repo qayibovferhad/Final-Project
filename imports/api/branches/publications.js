@@ -1,4 +1,4 @@
-import { Branches } from "./collection";
+import { Branches, Rooms } from "./collection";
 
 Meteor.publish("get.branches", function (argument) {
   let query = {};
