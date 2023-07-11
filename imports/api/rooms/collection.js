@@ -18,6 +18,15 @@ Schema.Room = new SimpleSchema({
   status: {
     type: Boolean,
   },
+  isEmpty: {
+    type: Boolean,
+  },
+  createdAt: {
+    type: Date,
+    autoValue: function () {
+      return new Date();
+    },
+  },
 });
 export const roomValidationText = Schema.Room.namedContext("room");
 Rooms.attachSchema(Schema.Room);

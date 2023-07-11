@@ -12,6 +12,9 @@ Template.teachers.onCreated(function () {
   this.subscribe("get.branches");
 });
 Template.teachers.helpers({
+  addOne: function (index) {
+    return index + 1;
+  },
   getAllTeachers: function () {
     return Meteor.users.find({ "profile.type": "TEACHER" });
   },
@@ -56,23 +59,11 @@ Template.teachers.events({
       if (err) {
         console.log(err);
       } else {
-        Meteor.call(
-          "add.teacherToBranch",
-          teacherId,
-          selectedBranches,
-          function (err, success) {
-            if (err) {
-              console.log(err);
-            } else {
-              $("#myModal").modal("hide");
-            }
-          }
-        );
+        $("#addTeacher").hide("");
       }
     });
   },
   "click .activate-btn": function (event, template) {
-    console.log(this);
     const newStatus = this.profile.status === true ? false : true;
     Meteor.call("update.teacherStatus", this._id, newStatus, function (err) {
       if (err) {
@@ -82,9 +73,8 @@ Template.teachers.events({
   },
   "click .delete-btn": function () {
     const teacherId = this._id;
-    const branch = Branches.findOne({ teachers: { $in: [teacherId] } });
-    console.log(branch);
-    Meteor.call("remove.teacher", teacherId, branch, function (err) {
+
+    Meteor.call("remove.teacher", teacherId, function (err) {
       if (err) {
         console.log(err);
       }

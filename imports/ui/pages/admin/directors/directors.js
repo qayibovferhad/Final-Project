@@ -22,7 +22,13 @@ Template.directors.helpers({
     };
     return Meteor.users.find(query);
   },
-  getBranchName: function (direktorId) {
+  getBranch: function (direktorId) {
     return Branches.findOne({ direktorId: direktorId });
+  },
+});
+Template.directors.events({
+  "keyup #searchInput": function (event, template) {
+    const searchQuery = event.target.value.trim();
+    template.searchQuery.set(searchQuery);
   },
 });

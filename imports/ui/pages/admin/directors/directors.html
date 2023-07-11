@@ -1,12 +1,13 @@
 <template name="directors">
-  <h1 class="text-center mb-5">Directors</h1>
-  <div class="directors">
+  <div class="directors mt-5">
     <table class="table">
       <thead>
         <tr>
           <th>#id</th>
           <th>Branch Name</th>
-          <th>Name</th>
+          <th>Branch Address</th>
+          <th>Fullname</th>
+          <th>Username</th>
           <th>Email</th>
           <th>Age</th>
           <th>Status</th>
@@ -17,7 +18,11 @@
         {{#each getAllDirectors}}
         <tr>
           <td>{{addOne @index}}</td>
-          <td>{{#with getBranchName _id}} {{branchName}} filiali {{/with}}</td>
+          {{#with getBranch _id}}
+          <td>{{branchName}} filiali</td>
+          <td>{{branchAddress}}</td>
+          {{/with}}
+          <td>{{profile.firstname}} {{profile.lastname}}</td>
           <td>{{username}}</td>
           <td>{{emails.[0].address}}</td>
           <td>{{profile.age}}</td>

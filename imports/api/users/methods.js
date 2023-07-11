@@ -1,6 +1,3 @@
-import { Branches } from "../branches/collection";
-import { Rooms } from "../rooms/collection";
-
 Meteor.methods({
   "add.user": function (data) {
     let res = Accounts.createUser({
@@ -20,12 +17,19 @@ Meteor.methods({
     return res;
   },
   removeUserByBranchId: function (branchId) {
+    const users = Meteor.users.find({ "profile.branches": branchId }).fetch();
+    users.forEach((user) => {
+      const branches = user.profile.branches.filter((id) => id !== branchId);
+      Meteor.users.update(user._id, { $set: { "profile.branches": branches } });
+      if (branches.length === 0 && user.profile.type === "TEACHER") {
+        Meteor.users.remove(user._id);
+      }
+    });
     return Meteor.users.remove({
       "profile.branchId": branchId,
     });
   },
   "update.userStatus": function (branchId, newStatus) {
-    Rooms.update({ branchId }, { $set: { status: newStatus } });
     return Meteor.users.update(
       { "profile.branchId": branchId },
       { $set: { "profile.status": newStatus } }
@@ -39,9 +43,5 @@ Meteor.methods({
   },
   "remove.teacher": function (userId, branch) {
     Meteor.users.remove(userId);
-    return Branches.update(
-      { _id: branch._id },
-      { $pull: { teachers: userId } }
-    );
   },
 });

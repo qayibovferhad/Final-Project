@@ -1,6 +1,5 @@
 <template name="rooms">
   <div class="rooms">
-    <h1 class="text-center mt-5">Rooms</h1>
     <button
       type="button"
       class="btn btn-primary mt-2 mb-5"
@@ -76,13 +75,26 @@
         </div>
       </div>
     </div>
+
+    <div class="search-filter-container mb-3">
+      <div class="search-container">
+        <label for="searchInput">Search by branch name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="searchInput"
+          placeholder="Enter branch name"
+        />
+      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
           <th>id</th>
           <th>Name</th>
           <th>Capacity</th>
-          <th>Branch</th>
+          <th>Branch Name</th>
+          <th>Branch Address</th>
           <th>Status</th>
           <th>Update</th>
         </tr>
@@ -100,8 +112,10 @@
           <td>{{addOne @index}}</td>
           <td>{{roomName}}</td>
           <td>{{capacity}}</td>
-          <td>{{getBranch _id}} filiali</td>
-
+          {{#with getBranch _id}}
+          <td>{{branchName}} filiali</td>
+          <td>{{branchAddress}}</td>
+          {{/with}}
           <td>{{#if status}} active {{else}} inactive {{/if}}</td>
           <td>
             <button
@@ -119,6 +133,23 @@
             >
               <i class="fa-solid fa-trash"></i>
             </button>
+            {{#if status}}
+            <button
+              class="btn btn-warning btn-sm activate-btn"
+              data-id="{{_id}}"
+              type="button"
+            >
+              <i class="fa-solid fa-ban"></i>
+            </button>
+            {{else}}
+            <button
+              class="btn btn-success btn-sm activate-btn"
+              data-id="{{_id}}"
+              type="button"
+            >
+              <i class="fa-regular fa-circle-check"></i>
+            </button>
+            {{/if}}
           </td>
         </tr>
 

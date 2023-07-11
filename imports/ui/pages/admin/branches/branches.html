@@ -1,5 +1,4 @@
 <template name="branches">
-  <h1 class="text-center">Branches</h1>
   <button
     type="button"
     class="btn btn-primary mt-2 mb-5"
@@ -8,7 +7,6 @@
   >
     Add Branch
   </button>
-
 
   <div
     class="modal fade"
@@ -126,12 +124,32 @@
     </div>
   </div>
   <div class="branches">
+    <div class="search-filter-container mb-3">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="search-container">
+            <label for="searchInput">Search by branch name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="searchInput"
+              placeholder="Enter branch name"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="table">
       <thead>
         <tr>
-          <th>id</th>
-          <th>Name</th>
+          <th>#id</th>
+          <th class="sort-btn" data-field="branchName">Name</th>
           <th>Address</th>
+          <th>Director</th>
+          <th>Teacher Count</th>
+          <th>Room Count</th>
+          <th>Created Date</th>
           <th>Status</th>
           <th>Update</th>
         </tr>
@@ -149,7 +167,10 @@
           <td>{{addOne @index}}</td>
           <td>{{branchName}} filiali</td>
           <td>{{branchAddress}}</td>
-
+          <td>{{getDirector _id}}</td>
+          <td>{{getTeacherCount _id}}</td>
+          <td>{{getRoomCount _id}}</td>
+          <td>{{formatDate createdAt}}</td>
           <td>{{#if status}} active {{else}} inactive {{/if}}</td>
           <td>
             <button
@@ -185,31 +206,10 @@
             {{/if}}
           </td>
         </tr>
-        <tr class="collapse" id="details{{_id}}">
-          <td colspan="5">
-            <div class="row">
-              <div class="col-lg-12">
-                <h4>Director:</h4>
-                <h6>
-                  Director: {{#with getDirector
-                  direktorId}}{{username}}{{/with}}
-                </h6>
-                <h6>
-                  Email: {{#with getDirector
-                  direktorId}}{{emails.[0].address}}{{/with}}
-                </h6>
-                <h6>
-                  Age: {{#with getDirector direktorId}}{{profile.age}}{{/with}}
-                </h6>
-              </div>
-            </div>
-          </td>
-        </tr>
+
         {{/each}}
       </tbody>
     </table>
     <hr />
-
-  
   </div>
 </template>

@@ -3,11 +3,16 @@ import { Random } from "meteor/random";
 import {
   Branches,
   branchValidationText,
-  Rooms,
-  roomValidationText,
 } from "../../../../api/branches/collection";
+import { Rooms } from "../../../../api/rooms/collection";
 
 Template.branches.onCreated(function () {
+  this.searchQuery = new ReactiveVar("");
+  this.sortOptions = new ReactiveVar({ branchName: 1 });
+  this.autorun(() => {
+    let query = {};
+    this.subscribe("get.users", query);
+  });
   this.autorun(() => {
     let query = {};
     this.subscribe("get.rooms", query);
@@ -16,10 +21,6 @@ Template.branches.onCreated(function () {
     let query = {};
     this.subscribe("get.branches", query);
   });
-  this.autorun(() => {
-    let query = {};
-    this.subscribe("get.users", query);
-  });
 });
 
 Template.branches.helpers({
@@ -27,29 +28,64 @@ Template.branches.helpers({
     return index + 1;
   },
   getAllBranches: function () {
-    return Branches.find();
-  },
-  getAllRooms: function (branchId) {
-    let query = {};
+    const searchQuery = Template.instance().searchQuery.get();
+    const sortOptions = Template.instance().sortOptions.get();
 
-    return Rooms.find(query);
+    let query = {};
+    if (searchQuery) {
+      query.branchName = { $regex: searchQuery, $options: "i" };
+    }
+
+    return Branches.find(query, { sort: sortOptions });
   },
-  getDirector: function (directorId) {
-    return Meteor.users.findOne({ _id: directorId });
+  getRoomCount: function (branchId) {
+    return Rooms.find({ branchId }).count();
   },
-  getBranch: function (roomId) {
-    const room = Rooms.findOne({ _id: roomId });
-    if (room) {
-      const branch = Branches.findOne({ _id: room.branchId });
-      if (branch) {
-        return branch.branchName;
-      }
+  getTeacherCount: function (branchId) {
+    return Meteor.users
+      .find({
+        "profile.branches": { $in: [branchId] },
+        "profile.type": "TEACHER",
+      })
+      .count();
+  },
+  getDirector: function (branchId) {
+    console.log(branchId);
+
+    let user = Meteor.users.findOne({
+      "profile.branchId": branchId,
+      "profile.type": "DIREKTOR",
+    });
+    console.log(user);
+    if (user) {
+      return user.username;
     }
     return "";
   },
+  formatDate: function (date) {
+    const options = { month: "long", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString(undefined, options);
+  },
 });
-
 Template.branches.events({
+  "click .sort-btn": function (event, template) {
+    const field = event.currentTarget.dataset.field;
+    const sortOptions = template.sortOptions.get();
+
+    if (sortOptions[field] === 1) {
+      sortOptions[field] = -1;
+    } else {
+      sortOptions[field] = 1;
+    }
+
+    template.sortOptions.set(sortOptions);
+  },
+
+  "keyup #searchInput": function (event, template) {
+    const searchQuery = event.target.value.trim();
+    template.searchQuery.set(searchQuery);
+  },
+
   "submit #branchForm"(event, template) {
     event.preventDefault();
     let branchName = $("#branch-name").val();
@@ -98,7 +134,7 @@ Template.branches.events({
         console.log(err);
       } else {
         branchData.direktorId = userId;
-        Meteor.call("add.branch", branchData, function (err, branchId) {
+        Meteor.call("add.branch", branchData, function (err) {
           if (err) {
             console.log(err);
           } else {
@@ -148,10 +184,17 @@ Template.branches.events({
           if (err) {
             console.log(err);
           } else {
+            Meteor.call(
+              "update.roomsStatus",
+              branchId,
+              newStatus,
+              function (err) {
+                console.log(err);
+              }
+            );
           }
         });
       }
     });
-    event.stopPropagation();
   },
 });

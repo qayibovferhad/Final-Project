@@ -24,6 +24,12 @@ Schema.Branch = new SimpleSchema({
     type: Array,
     optional: true,
   },
+  createdAt: {
+    type: Date,
+    autoValue: function () {
+      return new Date();
+    },
+  },
   "teachers.$": String,
   rooms: {
     type: Array,

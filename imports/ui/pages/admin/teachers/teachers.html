@@ -1,17 +1,16 @@
 <template name="teachers">
-  <h1 class="text-center">Teachers</h1>
   <button
     type="button"
     class="btn btn-primary mt-2 mb-5"
     data-toggle="modal"
-    data-target="#myModal"
+    data-target="#addTeacher"
   >
     Add Teacher
   </button>
 
   <div
     class="modal fade"
-    id="myModal"
+    id="addTeacher"
     tabindex="-1"
     role="dialog"
     aria-labelledby="myModalLabel"
@@ -140,7 +139,7 @@
           aria-expanded="false"
           aria-controls="details{{_id}}"
         >
-          <td>{{ @index}}</td>
+          <td>{{addOne @index}}</td>
           <td>{{profile.firstname}} {{profile.lastname}}</td>
           <td>{{username}}</td>
           <td>{{emails.[0].address}}</td>
